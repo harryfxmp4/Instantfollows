@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PhishSafe — Awareness Demo</title>
+
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: #0b1220;
+  --panel: #111c30;
+  --panel2: #17243b;
+  --text: #edf4ff;
+  --muted: #a9b8ce;
+  --border: #2a3a56;
+  --blue: #5ca8ff;
+  --green: #5fe0ad;
+  --amber: #ffd166;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  background: radial-gradient(ellipse at top left, #18345a 0, var(--bg) 48%);
+  color: var(--text);
+}
+
+main {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  padding: 28px 18px 48px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+.logo {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #58a6ff, #7c6cff);
+  color: #071326;
+  font-size: 1.25rem;
+}
+
+.pill {
+  border: 1px solid #7b6331;
+  color: var(--amber);
+  background: #302713;
+  border-radius: 999px;
+  padding: 7px 11px;
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.hero {
+  margin: 20px 0 26px;
+  max-width: 720px;
+}
+
+.eyebrow {
+  color: var(--green);
+  text-transform: uppercase;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+h1 {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+  margin: 10px 0 14px;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.card {
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 18px 50px #0002;
+}
+
+.browser {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin: 18px 0;
+  background: #f6f8fc;
+  color: #182338;
+}
+
+.browser-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #e7ecf4;
+  padding: 11px 13px;
+  border-bottom: 1px solid #d3dce9;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #8b98aa;
+}
+
+.address {
+  margin-left: 7px;
+  padding: 6px 9px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background: white;
+  border: 1px solid #d5deea;
+  border-radius: 7px;
+  font-size: .78rem;
+  color: #48566c;
+}
+
+.mock-content {
+  padding: 23px 20px 22px;
+}
+
+.mock-content h3 {
+  font-size: 1.45rem;
+  margin: 16px 0 5px;
+}
+
+.mock-content p {
+  color: #58667b;
+  font-size: .9rem;
+  margin-top: 0;
+}
+
+label {
+  display: block;
+  color: #182338;
+  font-weight: 700;
+  font-size: .9rem;
+  margin: 16px 0 7px;
+}
+
+input {
+  width: 100%;
+  border: 1px solid #cbd5e3;
+  border-radius: 10px;
+  padding: 12px 13px;
+  font: inherit;
+  color: #182338;
+  background: white;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px #5ca8ff25;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font: inherit;
+  font-weight: 800;
+}
+
+.primary {
+  width: 100%;
+  margin-top: 14px;
+  background: #4d9cff;
+  color: #071326;
+}
+
+.notice {
+  border-radius: 12px;
+  padding: 13px 14px;
+  margin-top: 14px;
+  line-height: 1.5;
+  font-size: .9rem;
+}
+
+.notice.good {
+  background: #102f29;
+  border: 1px solid #286b57;
+  color: #a9f4d6;
+}
+
+.notice.warn {
+  background: #352b16;
+  border: 1px solid #80652a;
+  color: #ffe4a0;
+}
+
+.demo-note {
+  margin-top: 16px;
+  padding: 13px 14px;
+  border-radius: 12px;
+  background: #fff4d8;
+  border: 1px solid #e0c67d;
+  color: #654c14;
+  font-size: .84rem;
+  line-height: 1.55;
+}
+
+.footer-note {
+  margin-top: 18px;
+  padding: 13px 14px;
+  border: 1px dashed #4b6080;
+  border-radius: 12px;
+  color: var(--muted);
+  font-size: .82rem;
+  line-height: 1.55;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: .8rem;
+  margin-top: 26px;
+}
+
+@media (max-width: 720px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .card {
+    padding: 17px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main>
+
+  <header>
+
+    <div class="brand">
+      <div class="logo">✓</div>
+      <span>InstantFollows</span>
+    </div>
+
+    <span class="pill">100% FREE FOLLOWERS</span>
+
+  </header>
+
+
+  <section class="hero">
+
+    <div class="eyebrow">
+      True Malayali Followers
+    </div>
+
+    <h1>
+      Did you want to increase Your Followers?
+    </h1>
+
+    <p>
+      This is a security awareness demonstration showing how
+      suspicious follower websites can look convincing.
+      "നിങ്ങൾ ഇവിടെ സുരക്ഷിതനാണ്"
+    </p>
+
+  </section>
+
+
+  <section class="layout">
+
+    <article class="card">
+
+      <div class="browser">
+
+        <div class="browser-top">
+
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+
+          <div class="address">
+            http://instagram-login-demo.local
+          </div>
+
+        </div>
+
+
+        <div class="mock-content">
+
+          <h3>
+            Kindly Enter your IG account details.
+          </h3>
+
+          <p>
+            Don't click suspicious messages or links.
+            This page is a security awareness demonstration.
+          </p>
+
+
+          <form action="/submit" method="POST">
+
+            <label for="username">
+              Practice username
+            </label>
+
+            <input
+              id="username"
+              name="username"
+              autocomplete="off"
+              placeholder="Demo username"
+              required
+            >
+
+
+            <label for="message">
+              Your message
+            </label>
+
+            <input
+              id="message"
+              name="message"
+              autocomplete="off"
+              placeholder="Enter your message"
+              required
+            >
+
+
+            <label for="followers">
+              Number of Followers (Maximum 500)
+            </label>
+
+            <input
+              id="followers"
+              name="followers"
+              type="number"
+              min="1"
+              max="500"
+              autocomplete="off"
+              placeholder="How many followers?"
+              required
+            >
+
+
+            <button
+              class="primary"
+              type="submit"
+            >
+              Get Followers
+            </button>
+
+          </form>
+
+
+          {% if submitted %}
+
+          <div class="notice good" role="status">
+
+            <strong>Demo submitted successfully.</strong>
+
+            <br>
+
+            Your demo information was saved for the
+            awareness demonstration.
+
+          </div>
+
+          {% endif %}
+
+
+          <div class="demo-note">
+
+            ⚠️ <strong>Security Awareness Demo</strong><br>
+
+            Never enter your real Instagram password,
+            OTP, recovery code, or other sensitive information
+            into a suspicious website.
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <footer>
+    InstantFollows · Security Awareness Demo
+  </footer>
+
+</main>
+
+</body>
+</html>
