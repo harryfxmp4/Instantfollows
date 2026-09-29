@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Demo Messages</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #0b1220;
+            color: #edf4ff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .message {
+            background: #111c30;
+            border: 1px solid #2a3a56;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .id {
+            color: #5ca8ff;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .username {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .text {
+            color: #a9b8ce;
+            margin-bottom: 8px;
+        }
+
+        .followers {
+            color: #5fe0ad;
+        }
+
+        .empty {
+            color: #a9b8ce;
+        }
+
+        a {
+            color: #5ca8ff;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Submitted Demo Messages</h1>
+
+    {% if messages %}
+
+        {% for id, username, message, followers in messages %}
+
+            <div class="message">
+
+                <div class="id">
+                    Demo #{{ id }}
+                </div>
+
+                <div class="username">
+                    Username: {{ username }}
+                </div>
+
+                <div class="text">
+                    Message: {{ message }}
+                </div>
+
+                <div class="followers">
+                    Requested followers: {{ followers }}
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p class="empty">
+            No demo messages submitted yet.
+        </p>
+
+    {% endif %}
+
+    <br>
+
+    <a href="/">
+        ← Back to Demo
+    </a>
+
+</div>
+
+</body>
+
+</html>
