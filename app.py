@@ -1,25 +1,29 @@
+```python
+import os
+import psycopg
 from flask import Flask, render_template, request
-import sqlite3
 
 app = Flask(__name__)
 
-DATABASE = "messages.db"
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+
+def get_conn():
+    if not DATABASE_URL:
+        raise RuntimeError("DATABASE_URL is not set")
+    return psycopg.connect(DATABASE_URL)
 
 
 def init_db():
-    conn = sqlite3.connect(DATABASE)
-
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS messages (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL,
-            message TEXT NOT NULL,
-            followers INTEGER NOT NULL
-        )
-    """)
-
-    conn.commit()
-    conn.close()
+    with get_conn() as conn:
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS messages (
+                id SERIAL PRIMARY KEY,
+                username TEXT NOT NULL,
+                message TEXT NOT NULL,
+                followers INTEGER NOT NULL
+            )
+        """)
 
 
 @app.route("/")
@@ -34,7 +38,6 @@ def submit():
     message = request.form.get("message", "").strip()
     followers = request.form.get("followers", "").strip()
 
-    # Basic validation
     if not username or not message or not followers:
         return render_template(
             "index.html",
@@ -49,27 +52,21 @@ def submit():
             submitted=False
         )
 
-    # Keep followers within the demo limit
     if followers < 1 or followers > 500:
         return render_template(
             "index.html",
             submitted=False
         )
 
-    # Save demo information
-    conn = sqlite3.connect(DATABASE)
-
-    conn.execute(
-        """
-        INSERT INTO messages
-        (username, message, followers)
-        VALUES (?, ?, ?)
-        """,
-        (username, message, followers)
-    )
-
-    conn.commit()
-    conn.close()
+    with get_conn() as conn:
+        conn.execute(
+            """
+            INSERT INTO messages
+            (username, message, followers)
+            VALUES (%s, %s, %s)
+            """,
+            (username, message, followers)
+        )
 
     return render_template(
         "index.html",
@@ -80,19 +77,14 @@ def submit():
 @app.route("/messages")
 def view_messages():
 
-    conn = sqlite3.connect(DATABASE)
-
-    cursor = conn.execute(
-        """
-        SELECT id, username, message, followers
-        FROM messages
-        ORDER BY id DESC
-        """
-    )
-
-    messages = cursor.fetchall()
-
-    conn.close()
+    with get_conn() as conn:
+        messages = conn.execute(
+            """
+            SELECT id, username, message, followers
+            FROM messages
+            ORDER BY id DESC
+            """
+        ).fetchall()
 
     return render_template(
         "messages.html",
@@ -109,3 +101,4 @@ if __name__ == "__main__":
         port=5000,
         debug=True
     )
+```
