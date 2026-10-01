@@ -220,11 +220,47 @@ button {
   font-size: .9rem;
 }
 
-.notice.good {
+```css
+.success-panel {
+  margin-top: 20px;
+  min-height: 300px;
+  border-radius: 16px;
   background: #102f29;
   border: 1px solid #286b57;
-  color: #a9f4d6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 35px 20px;
 }
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #5fe0ad;
+  color: #102f29;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+
+.success-panel h2 {
+  margin: 0 0 8px;
+  color: #a9f4d6;
+  font-size: 1.35rem;
+}
+
+.success-panel p {
+  margin: 0;
+  color: #b8d8cd;
+  font-size: .9rem;
+}
+```
+
 
 .notice.warn {
   background: #352b16;
@@ -396,20 +432,14 @@ This is a website where you can get free followers safely.
           </form>
 
 
-          {% if submitted %}
-
-          <div class="notice good" role="status">
-
-            <strong>Demo submitted successfully.</strong>
-
-            <br>
-
-            Your demo information was saved for the
-            awareness demonstration.
-
-          </div>
-
-          {% endif %}
+{% if submitted %} 
+          <div class="success-panel"> 
+            <div class="success-icon">✓</div> 
+            <h2>Details Submitted Successfully</h2> 
+            <p> Wait 24hrs to See the result.
+            </p> 
+          </div> 
+{% endif %}
 
 
         </div>
