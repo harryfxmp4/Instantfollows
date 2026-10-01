@@ -1,4 +1,3 @@
-```python
 import os
 import psycopg
 from flask import Flask, render_template, request
@@ -101,4 +100,4 @@ if __name__ == "__main__":
         port=5000,
         debug=True
     )
-```
+    
